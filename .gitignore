@@ -1,0 +1,20 @@
+# Claude
+.claude/docs
+
+# Git
+.DS_Store
+
+# Node
+node_modules
+dist
+
+# Env
+.env*
+!.env.example
+
+# Firebase emulator
+*-debug.log
+.firebase
+
+# Vercel
+.vercel
