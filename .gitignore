@@ -7,10 +7,14 @@
 # Node
 node_modules
 dist
+coverage
+api/_bundle.cjs
+public
 
 # Env
 .env*
 !.env.example
+!.env.development
 
 # Firebase emulator
 *-debug.log
