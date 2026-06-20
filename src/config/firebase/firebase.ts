@@ -1,4 +1,5 @@
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
+import type { Auth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 
 import { env } from 'config/env';
@@ -19,7 +20,15 @@ const app = getOrCreateApp();
 
 export const db = getFirestore(app);
 
-// auth / storage 는 도메인 단계에서 활성화한다.
-// `firebase-admin/auth`는 jwks-rsa→jose(ESM 전용)를 끌어와 Vercel CJS 런타임에서
-// ERR_REQUIRE_ESM 으로 죽으므로, 지금(Firestore만 필요한 단계)은 정적 로드하지 않는다.
-// auth 도입 시 jose ESM 호환(pnpm overrides 등)을 함께 해결한다.
+let authClient: Auth | undefined;
+
+// `firebase-admin/auth`는 jose(ESM 전용)를 끌어와 Vercel CJS 번들에서 정적 require 시
+// ERR_REQUIRE_ESM 으로 죽는다. 동적 import()는 번들에 그대로 남아 ESM을 안전하게 로드하므로
+// auth 는 지연 생성한다.
+export const getAuthClient = async (): Promise<Auth> => {
+  if (!authClient) {
+    const { getAuth } = await import('firebase-admin/auth');
+    authClient = getAuth(app);
+  }
+  return authClient;
+};
