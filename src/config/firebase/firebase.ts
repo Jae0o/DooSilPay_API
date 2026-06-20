@@ -1,7 +1,5 @@
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { getStorage } from 'firebase-admin/storage';
 
 import { env } from 'config/env';
 
@@ -20,5 +18,8 @@ const getOrCreateApp = () => {
 const app = getOrCreateApp();
 
 export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const storage = getStorage(app);
+
+// auth / storage 는 도메인 단계에서 활성화한다.
+// `firebase-admin/auth`는 jwks-rsa→jose(ESM 전용)를 끌어와 Vercel CJS 런타임에서
+// ERR_REQUIRE_ESM 으로 죽으므로, 지금(Firestore만 필요한 단계)은 정적 로드하지 않는다.
+// auth 도입 시 jose ESM 호환(pnpm overrides 등)을 함께 해결한다.
