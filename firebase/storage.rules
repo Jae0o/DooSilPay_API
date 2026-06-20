@@ -1,0 +1,19 @@
+rules_version = '2';
+
+// DooPay Storage 보안 규칙
+// 경로(기반-아키텍처 §2.3): owners/{ownerId}/receipts/...  · owners/{ownerId}/signature
+// 본인(uid == ownerId)만 읽기/쓰기. 백엔드 Admin SDK는 규칙 우회.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    match /owners/{ownerId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == ownerId;
+    }
+
+    // 그 외 경로 거부
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

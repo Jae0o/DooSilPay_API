@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// DooPay Firestore 보안 규칙
+// 원칙(기반-아키텍처 §2.4): 모든 데이터는 owners/{ownerId}에 종속, 본인만 접근.
+//
+// 참고: 백엔드는 firebase-admin(Admin SDK)로 접근하며 Admin SDK는 이 규칙을 "우회"한다.
+// 따라서 이 규칙은 (1) 방어적 격리(클라이언트가 직접 Firestore에 붙는 경우 차단),
+// (2) 향후 클라이언트 직접 읽기 대비용이다. 현재 설계상 클라이언트는 Auth만 사용한다.
+// 더 강하게 잠그려면 아래 owner-scoped를 deny-all로 바꿔도 된다(백엔드는 영향 없음).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(ownerId) {
+      return request.auth != null && request.auth.uid == ownerId;
+    }
+
+    // 학원 정보 문서 + 모든 하위 컬렉션(students·payments·issuedReceipts·counters 등)
+    match /owners/{ownerId} {
+      allow read, write: if isOwner(ownerId);
+
+      match /{document=**} {
+        allow read, write: if isOwner(ownerId);
+      }
+    }
+
+    // 그 외 경로는 전부 거부 (명시)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

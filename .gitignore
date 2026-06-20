@@ -14,7 +14,6 @@ public
 # Env
 .env*
 !.env.example
-!.env.development
 
 # Firebase emulator
 *-debug.log
