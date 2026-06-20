@@ -1,0 +1,1 @@
+export * from './putAcademy.router';
