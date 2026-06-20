@@ -1,0 +1,10 @@
+node_modules
+dist
+coverage
+public
+api/_bundle.cjs
+pnpm-lock.yaml
+.claude
+Design
+기획
+api-plan
