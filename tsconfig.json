@@ -8,8 +8,7 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "baseUrl": "src",
-    "ignoreDeprecations": "6.0",
-    "rootDir": "src"
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src", "tests"]
 }
