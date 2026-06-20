@@ -4,8 +4,7 @@ import express from 'express';
 import { env } from 'config/env';
 import { errorHandler, notFound } from 'middlewares';
 import { HealthRepository } from 'repositories';
-
-// import { routes } from 'routes';  // 도메인 단계에서 활성화
+import { routes } from 'routes';
 
 const app = express();
 
@@ -22,7 +21,7 @@ app.get('/api/health', async (_req, res) => {
   }
 });
 
-// routes.forEach(({ path, router }) => app.use(`/api${path}`, router));
+routes.forEach(({ path, router }) => app.use(`/api${path}`, router));
 
 app.use(notFound); // 라우터 뒤
 app.use(errorHandler); // 가장 마지막
