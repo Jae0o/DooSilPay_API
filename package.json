@@ -9,6 +9,7 @@
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "tsx watch --env-file=.env.development src/server.ts",
+    "seed:health": "tsx --env-file=.env.development scripts/seed-health.ts",
     "build": "tsc",
     "build:vercel": "node scripts/build-vercel.mjs",
     "test": "vitest",
