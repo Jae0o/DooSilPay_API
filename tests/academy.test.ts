@@ -17,3 +17,12 @@ describe('GET /api/academy', () => {
     expect(res.body).toEqual({ ok: false, error: { code: 'UNAUTHENTICATED', message: '로그인이 필요합니다.' } });
   });
 });
+
+describe('PUT /api/academy', () => {
+  it('토큰 없음 → 401 UNAUTHENTICATED', async () => {
+    const res = await request(app).put('/api/academy').send({ name: 'A', ownerName: 'B' });
+
+    expect(res.status).toBe(401);
+    expect(res.body).toEqual({ ok: false, error: { code: 'UNAUTHENTICATED', message: '로그인이 필요합니다.' } });
+  });
+});
