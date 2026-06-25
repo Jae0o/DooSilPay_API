@@ -18,7 +18,8 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
     req.auth = { uid: decoded.uid };
 
     next();
-  } catch {
+  } catch (error) {
+    console.error('[requireAuth] verifyIdToken 실패:', error);
     next(new AppError(401, 'INVALID_TOKEN', '유효하지 않은 토큰입니다.'));
   }
 };
