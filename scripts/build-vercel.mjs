@@ -1,5 +1,5 @@
 import { build } from 'esbuild';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 
 // Vercel 배포 전용 번들. @vercel/node는 tsconfig baseUrl(베어 임포트)을 런타임에 해석하지 못하므로,
 // src/app.ts를 의존성 그래프째 단일 파일(api/_bundle.cjs)로 묶어 베어 임포트를 전부 인라인한다.
@@ -18,3 +18,8 @@ await build({
 // index.html이 아니므로 '/'는 정적 서빙되지 않고 rewrites로 /api 함수가 처리한다.
 mkdirSync('public', { recursive: true });
 writeFileSync('public/keep.txt', 'DooPay backend API — see /api/health\n');
+
+// 파비콘(추적되는 assets/에서 복사). public 은 gitignore라 빌드마다 재생성되므로 여기서 채운다.
+// 정적 파일은 rewrites(/(.*) → /api)보다 먼저 매칭되어 /favicon.ico 로 그대로 서빙된다.
+copyFileSync('assets/favicon.ico', 'public/favicon.ico');
+copyFileSync('assets/favicon.svg', 'public/favicon.svg');
