@@ -8,7 +8,7 @@ import { requireAuth } from './requireAuth.middleware';
 const { verifyIdToken } = vi.hoisted(() => ({ verifyIdToken: vi.fn() }));
 
 vi.mock('config/firebase', () => ({
-  getAuthClient: vi.fn(async () => ({ verifyIdToken })),
+  auth: { verifyIdToken },
 }));
 
 // requireAuth 를 직접 호출하고 (req, next) 를 돌려준다.

@@ -8,7 +8,7 @@
 node_modules
 dist
 coverage
-api/_bundle.cjs
+api/_bundle.mjs
 public
 
 # Env

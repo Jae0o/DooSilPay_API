@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 
-import { getAuthClient } from 'config/firebase';
+import { auth } from 'config/firebase';
 import { AppError } from 'constants/AppError';
 
 export const requireAuth: RequestHandler = async (req, _res, next) => {
@@ -13,7 +13,6 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
   }
 
   try {
-    const auth = await getAuthClient();
     const decoded = await auth.verifyIdToken(token);
     req.auth = { uid: decoded.uid };
 
