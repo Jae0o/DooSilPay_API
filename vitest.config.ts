@@ -14,7 +14,7 @@ export default defineConfig({
       FIREBASE_SERVICE_ACCOUNT_JSON: '{}',
       FIREBASE_STORAGE_BUCKET: 'doopay-dev.appspot.com',
       ALLOWED_ORIGINS: 'http://localhost:3000',
-      FIRESTORE_EMULATOR_HOST: 'localhost:8080',
+      FIRESTORE_EMULATOR_HOST: 'localhost:8085',
       FIREBASE_AUTH_EMULATOR_HOST: 'localhost:9099',
       FIREBASE_STORAGE_EMULATOR_HOST: 'localhost:9199',
     },
